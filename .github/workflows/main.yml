@@ -1,7 +1,6 @@
 # Файл main.yml
 name: Main Taski Workflow
 
-
 on:
   push:
     branches:
