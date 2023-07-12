@@ -1,4 +1,4 @@
-name: Main Kittygram workflow
+name: Main Taski workflow
 
 on:
   push:
@@ -61,7 +61,7 @@ jobs:
         with:
           context: ./backend/
           push: true
-          tags: zmeuko/kittygram_backend:latest
+          tags: zmeuko/taski_backend:latest
   frontend_tests:
     runs-on: ubuntu-latest
 
@@ -100,7 +100,7 @@ jobs:
         with:
           context: ./frontend/
           push: true
-          tags: zmeuko/kittygram_frontend:latest
+          tags: zmeuko/taski_frontend:latest
   build_gateway_and_push_to_docker_hub:
     name: Push gateway Docker image to DockerHub
     runs-on: ubuntu-latest
@@ -119,7 +119,7 @@ jobs:
         with:
           context: ./gateway/
           push: true
-          tags: zmeuko/kittygram_gateway:latest
+          tags: zmeuko/taski_gateway:latest
   deploy:
     runs-on: ubuntu-latest
     needs: 
