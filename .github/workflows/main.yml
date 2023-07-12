@@ -1,5 +1,4 @@
-# Файл main.yml
-name: Main Taski Workflow
+name: Main Kittygram workflow
 
 on:
   push:
@@ -13,12 +12,12 @@ jobs:
       postgres:
         image: postgres:13.10
         env:
-          POSTGRES_USER: admin
-          POSTGRES_PASSWORD: 1234pass
-          POSTGRES_DB: django
+          POSTGRES_USER: django_user
+          POSTGRES_PASSWORD: django_password
+          POSTGRES_DB: django_db
         ports:
           - 5432:5432
-        options: --health-cmd p_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python
@@ -26,16 +25,16 @@ jobs:
       with:
         python-version: 3.9
 
-    - name: install dependencies
+    - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
+        python -m pip install --upgrade pip 
         pip install flake8==6.0.0 flake8-isort==6.0.0
-        pip install -r ./backend/requirements.txt
+        pip install -r ./backend/requirements.txt 
     - name: Test with flake8 and django tests
       env:
-        POSTGRES_USER: admin
-        POSTGRES_PASSWORD: 1234pass
-        POSTGRES_DB: django
+        POSTGRES_USER: django_user
+        POSTGRES_PASSWORD: django_password
+        POSTGRES_DB: django_db
         DB_HOST: 127.0.0.1
         DB_PORT: 5432
       run: |
@@ -52,17 +51,17 @@ jobs:
         uses: actions/checkout@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      - name: Login to Docker
+      - name: Login to Docker 
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
+          username: ${{ secrets.DOCKER_USERNAME }} 
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Push to DockerHub
         uses: docker/build-push-action@v4
         with:
           context: ./backend/
           push: true
-          tags: zmeuko/taski_backend:latest
+          tags: zmeuko/kittygram_backend:latest
   frontend_tests:
     runs-on: ubuntu-latest
 
@@ -101,7 +100,7 @@ jobs:
         with:
           context: ./frontend/
           push: true
-          tags: zmeuko/taski_frontend:latest
+          tags: zmeuko/kittygram_frontend:latest
   build_gateway_and_push_to_docker_hub:
     name: Push gateway Docker image to DockerHub
     runs-on: ubuntu-latest
@@ -120,4 +119,5 @@ jobs:
         with:
           context: ./gateway/
           push: true
-          tags: zmeuko/taski_gateway:latest
+          tags: zmeuko/kittygram_gateway:latest
+  
