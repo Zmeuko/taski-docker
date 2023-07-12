@@ -21,8 +21,7 @@ jobs:
           - 5432:5432
         options: --health-cmd p_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
-    - name: Check out code
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v3
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
@@ -43,6 +42,7 @@ jobs:
         python -m flake8 backend/
         cd backend/
         python manage.py test
+
   build_and_push_to_docker_hub:
     name: Push Docker image to DockerHub
     runs-on: ubuntu-latest
